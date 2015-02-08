@@ -31,7 +31,7 @@ class Module extends \yii\base\Module
 	{
 		parent::init();
 
-		\Yii::$app->getI18n()->translations['core.*'] = [
+		\Yii::$app->getI18n()->translations['cms.*'] = [
 			'class' => 'yii\i18n\PhpMessageSource',
 			'basePath' => __DIR__.'/messages',
 		];
