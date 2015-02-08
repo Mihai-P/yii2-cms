@@ -3,9 +3,9 @@
 namespace cms\controllers;
 
 use Yii;
-use cms\models\Tag;
 use cms\components\Controller;
-use cms\models\TagSearch;
+use cms\models\Tag as MainModel;
+use cms\models\TagSearch as MainModelSearch;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -27,21 +27,6 @@ class TagController extends Controller
     }
 
     /**
-     * Lists all Tag models.
-     * @return mixed
-     */
-    public function actionIndex()
-    {
-        $searchModel = new TagSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render(Yii::$app->params['useSmarty'] ? 'index.tpl' : 'index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
-
-    /**
      * Displays a single Tag model.
      * @param integer $id
      * @return mixed
@@ -51,43 +36,6 @@ class TagController extends Controller
         return $this->render(Yii::$app->params['useSmarty'] ? 'view.tpl' : 'view', [
             'model' => $this->findModel($id),
         ]);
-    }
-
-    /**
-     * Creates a new Tag model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCreate()
-    {
-        $model = new Tag();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render(Yii::$app->params['useSmarty'] ? 'create.tpl' : 'create', [
-                'model' => $model,
-            ]);
-        }
-    }
-
-    /**
-     * Updates an existing Tag model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render(Yii::$app->params['useSmarty'] ? 'update.tpl' : 'update', [
-                'model' => $model,
-            ]);
-        }
     }
 
     /**
@@ -112,7 +60,7 @@ class TagController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = Tag::findOne($id)) !== null) {
+        if (($model = MainModel::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
