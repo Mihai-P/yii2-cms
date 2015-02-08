@@ -1,9 +1,9 @@
 <?php
 
-namespace backend\controllers;
+namespace cms\controllers;
 
 use Yii;
-use backend\models\Tag;
+use cms\models\Tag;
 use backend\models\TagSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;

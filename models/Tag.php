@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\models;
+namespace cms\models;
 
 use Yii;
 
@@ -16,7 +16,7 @@ use Yii;
  * @property string $create_time
  * @property integer $create_by
  */
-class Tag extends \yii\db\ActiveRecord
+class Tag extends \cms\components\ActiveRecord
 {
     /**
      * @inheritdoc
