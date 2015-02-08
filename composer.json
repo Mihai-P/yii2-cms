@@ -20,7 +20,8 @@
     ],
     "require": {
         "yiisoft/yii2": "dev-master",
-        "tez/yii2theme-adminui": "*"
+        "tez/yii2theme-adminui": "*",
+        "sammaye/yii2-audittrail": "dev-master",
     },  
     "autoload": {
         "psr-4": {
