@@ -28,20 +28,20 @@ use \yii\filters\AccessControl;
  * * Modifying record statuses -- setting records to active or inactive.
  * * Bulk and individual record actions.
  */
-class Controller extends \yii\web\Controller
+abstract class Controller extends \yii\web\Controller
 {
     /**
      * @const string the layouts available for the controller views. Defaults to the main one
      */
-    const MAIN_LAYOUT = '@core/views/layouts/main';
-    const FORM_LAYOUT = '@core/views/layouts/form';
-    const TABLE_LAYOUT = '@core/views/layouts/table';
-    const BLANK_LAYOUT = '@core/views/layouts/blank';
-    const POPUP_LAYOUT = '@core/views/layouts/popup';
-    const PRINT_LAYOUT = '@core/views/layouts/print';
-    const SIMPLE_LAYOUT = '@core/views/layouts/simple';
-    const SIDEBAR_LAYOUT = '@core/views/layouts/sidebar';
-    const LOGIN_LAYOUT = '@core/views/layouts/login';
+    const MAIN_LAYOUT = '@theme/themes/layouts/main';
+    const FORM_LAYOUT = '@theme/themes/layouts/form';
+    const TABLE_LAYOUT = '@theme/themes/layouts/index';
+    const BLANK_LAYOUT = '@theme/themes/layouts/blank';
+    const POPUP_LAYOUT = '@theme/themes/layouts/popup';
+    const PRINT_LAYOUT = '@theme/themes/layouts/print';
+    const SIMPLE_LAYOUT = '@theme/themes/layouts/simple';
+    const SIDEBAR_LAYOUT = '@theme/themes/layouts/sidebar';
+    const LOGIN_LAYOUT = '@theme/themes/layouts/login';
     /**
      * @event Event an event that is triggered after a record is inserted.
      */
@@ -57,18 +57,19 @@ class Controller extends \yii\web\Controller
     var $hasView = false;
 
     /**
-     * @var string the class of the main model for the controller
-     */
-    var $MainModel = '';
-    /**
-     * @var string the search class of the main model for the controller
-     */
-    var $MainModelSearch = '';
-
-    /**
      * @var array the default query params for the index view
      */
     var $defaultQueryParams = ['status' => ActiveRecord::STATUS_ACTIVE];
+
+    /**
+     * @var string the main model
+     */
+    var $mainModel;
+
+    /**
+     * @var string the main model search
+     */
+    var $mainModelSearch;
 
     /**
      * @var ActiveRecord the search model
@@ -87,11 +88,11 @@ class Controller extends \yii\web\Controller
     /**
      * @inheritdoc
      */
-    var $layout = '@core/views/layouts/main';
+    var $layout = '@theme/themes/layouts/main';
 
     /**
      * @inheritdoc
-     */
+     * /
     public function behaviors()
     {
         return [
@@ -125,7 +126,7 @@ class Controller extends \yii\web\Controller
                 ],
             ],
         ];
-    }
+    }*/
 
     /**
      * Gets the simple name for the current controller
@@ -147,7 +148,7 @@ class Controller extends \yii\web\Controller
     {
         return [
             'csv' => [
-                'class' => 'core\components\CsvAction',
+                'class' => 'cms\components\CsvAction',
             ],
         ];
     }
@@ -174,14 +175,14 @@ class Controller extends \yii\web\Controller
     public function getSearchCriteria()
     {
         /* setting the default pagination for the page */
-        if (!Yii::$app->session->get($this->MainModel . 'Pagination')) {
-            Yii::$app->session->set($this->MainModel . 'Pagination', Yii::$app->getModule('core')->recordsPerPage);
+        if (!Yii::$app->session->get($this->className() . 'Pagination')) {
+            Yii::$app->session->set($this->className() . 'Pagination', Yii::$app->getModule('cms')->recordsPerPage);
         }
-        $savedQueryParams = Yii::$app->session->get($this->MainModel . 'QueryParams');
+        $savedQueryParams = Yii::$app->session->get($this->className() . 'QueryParams');
         if (count($savedQueryParams)) {
             $queryParams = $savedQueryParams;
         } else {
-            $queryParams = [substr($this->MainModelSearch, strrpos($this->MainModelSearch, "\\") + 1) => $this->defaultQueryParams];
+            $queryParams = [substr($this->mainModelSearch, strrpos($this->mainModelSearch, "\\") + 1) => $this->defaultQueryParams];
         }
         /* use the same filters as before */
         if (count(Yii::$app->request->queryParams)) {
@@ -194,8 +195,8 @@ class Controller extends \yii\web\Controller
         if (Yii::$app->request->getIsPjax()) {
             $this->layout = false;
         }
-        Yii::$app->session->set($this->MainModel . 'QueryParams', $queryParams);
-        $this->searchModel = new $this->MainModelSearch;
+        Yii::$app->session->set($this->className() . 'QueryParams', $queryParams);
+        $this->searchModel = new $this->mainModelSearch;
         $this->dataProvider = $this->searchModel->search($queryParams);
     }
 
@@ -252,17 +253,17 @@ class Controller extends \yii\web\Controller
      * @param integer $id
      * @return ActiveRecord the loaded model
      * @throws NotFoundHttpException if the model cannot be found
-
+     */
     public function findModel($id)
     {
-        $model = call_user_func_array([$this->MainModel, 'findOne'], [$id]);
+        $model = call_user_func_array([$this->mainModel, 'findOne'], [$id]);
         if ($model !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
-     */
+
 
     /**
      * Creates a new model.
@@ -272,7 +273,7 @@ class Controller extends \yii\web\Controller
     public function actionCreate()
     {
         $this->layout = static::FORM_LAYOUT;
-        $model = new $this->MainModel;
+        $model = new $this->mainModel;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             $this->afterCreate($model);
@@ -281,7 +282,7 @@ class Controller extends \yii\web\Controller
             else
                 return $this->redirect(['index']);
         } else {
-            return $this->render('create', [
+            return $this->render(Yii::$app->params['useSmarty'] ? 'create.tpl' : 'create', [
                 'model' => $model,
             ]);
         }

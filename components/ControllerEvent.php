@@ -9,7 +9,7 @@
  * @since 2.0
  */
 
-namespace core\components;
+namespace cms\components;
 
 use yii\base\Event;
 
