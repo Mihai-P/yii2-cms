@@ -20,7 +20,6 @@
     ],
     "require": {
         "yiisoft/yii2": "dev-master",
-        "tez/yii2-nested-sets": "*",
         "tez/yii2theme-adminui": "*"
     },  
     "autoload": {
