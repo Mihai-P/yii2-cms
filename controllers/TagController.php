@@ -14,16 +14,9 @@ use yii\filters\VerbFilter;
  */
 class TagController extends Controller
 {
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-        ];
+    public function init() {
+        $this->mainModel = MainModel::className();
+        $this->mainModelSearch = MainModelSearch::className();
     }
 
     /**
@@ -36,34 +29,5 @@ class TagController extends Controller
         return $this->render(Yii::$app->params['useSmarty'] ? 'view.tpl' : 'view', [
             'model' => $this->findModel($id),
         ]);
-    }
-
-    /**
-     * Deletes an existing Tag model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
-    }
-
-    /**
-     * Finds the Tag model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Tag the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
-        if (($model = MainModel::findOne($id)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
     }
 }
