@@ -1,0 +1,31 @@
+{
+    "name": "tez/yii2-cms-module2",
+    "description": "Yii 2 Small CMS Module",
+    "keywords": ["yii2", "cms"],
+    "type": "yii2-extension",
+    "license": "BSD-3-Clause",
+    "support": {
+        "issues": "https://github.com/Mihai-P/yii2-core2/issues?state=open",
+        "forum": "http://www.yiiframework.com/forum/",
+        "wiki": "http://www.yiiframework.com/wiki/",
+        "source": "https://github.com/Mihai-P/yii2-core2"
+    },
+    "authors": [
+        {
+            "name": "Mihai-P",
+            "email": "mihai@2ezweb.com.au",
+            "homepage": "http://2ezweb.com.au",
+            "role": "Author"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "dev-master",
+        "tez/yii2-nested-sets": "*",
+        "tez/yii2theme-adminui": "*"
+    },  
+    "autoload": {
+        "psr-4": {
+            "cms\\": ""
+        }
+    }
+}
