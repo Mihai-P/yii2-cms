@@ -9,5 +9,7 @@
         <input type="submit" value="{if $model->isNewRecord }Create{else}Update{/if}" class="btn {if $model->isNewRecord }btn-success{else}btn-primary{/if}" />
     </div>
     {/ActiveForm}
+    
+    {$model->update_time|cat:' +1 week'|date_format:"%A, %B %e, %Y"}
 </div>
 

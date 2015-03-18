@@ -335,7 +335,7 @@ abstract class Controller extends \yii\web\Controller
             else
                 return $this->redirect(['index']);
         } else {
-            return $this->render('update', [
+            return $this->render(Yii::$app->params['useSmarty'] ? 'update.tpl' : 'update', [
                 'model' => $model,
             ]);
         }
