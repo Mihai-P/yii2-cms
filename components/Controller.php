@@ -33,15 +33,15 @@ abstract class Controller extends \yii\web\Controller
     /**
      * @const string the layouts available for the controller views. Defaults to the main one
      */
-    const MAIN_LAYOUT = '@theme/views/layouts/main';
-    const FORM_LAYOUT = '@theme/views/layouts/form';
-    const TABLE_LAYOUT = '@theme/views/layouts/index';
-    const BLANK_LAYOUT = '@theme/views/layouts/blank';
-    const POPUP_LAYOUT = '@theme/views/layouts/popup';
-    const PRINT_LAYOUT = '@theme/views/layouts/print';
-    const SIMPLE_LAYOUT = '@theme/views/layouts/simple';
-    const SIDEBAR_LAYOUT = '@theme/views/layouts/sidebar';
-    const LOGIN_LAYOUT = '@theme/views/layouts/login';
+    const MAIN_LAYOUT = 'main';
+    const FORM_LAYOUT = 'form';
+    const TABLE_LAYOUT = 'index';
+    const BLANK_LAYOUT = 'blank';
+    const POPUP_LAYOUT = 'popup';
+    const PRINT_LAYOUT = 'print';
+    const SIMPLE_LAYOUT = 'simple';
+    const SIDEBAR_LAYOUT = 'sidebar';
+    const LOGIN_LAYOUT = 'login';
     /**
      * @event Event an event that is triggered after a record is inserted.
      */
